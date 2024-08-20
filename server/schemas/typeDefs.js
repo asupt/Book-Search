@@ -1,55 +1,42 @@
 const typeDefs = `
- type Profile {
-  _id: ID
-  name: String
-  email: String
-  bids: [Bid]
+type User {
+  _id: ID!
+  username: String!
+  email: String!
+  savedBooks: [Book]
 }
 
-type Artwork {
-  _id: ID
+type Book {
+  bookId: ID!
   title: String
-  imageUrl: String
+  authors: [author]
+  image: String
+  link: String
   description: String
-  startingBid: Float
-  currentHighestBid: Float
-  startTime: String
-  endTime: String
-  bids: [Bid]
 }
 
-type Bid {
-  _id: ID
-  profileId: String
-  artworkId: String
-  bidAmount: Float
-  bidTime: String
+type Auth {
+  token: String
+  user: User
 }
 
+type Query {
+  User(userId: ID!): User
+}
 
-  # Set up an Auth type to handle returning data from a profile creating or user login
-  type Auth {
-    token: ID!
-    profile: Profile
-  }
+type Mutation {
+  addUser(username: String!, email: String!, password: String!): Auth
+  login(email: String!, password: String!): Auth
+  saveBook(book: BookInput!): User
+  deleteBook(bookId: ID!): User
+}
 
-  type Query {
-    profiles: [Profile]!
-    profile(profileId: ID!): Profile
-    artworks: [Artwork]!
-    artwork(artworkId: ID!): Artwork
-  }
+input BookInput {
+  bookId: ID!
+  title: String
+  authors: [author]
+}
 
-  type Mutation {
-    # Set up mutations to handle creating a profile or logging into a profile and return Auth type
-    addProfile(name: String!, email: String!, password: String!): Auth
-    login(email: String!, password: String!): Auth
-
-    removeProfile(profileId: ID!): Profile
-
-    placeBid(artworkId: ID!, bidAmount: Float!): Bid
-  closeAuction(artworkId: ID!): Artwork
-  }
 `;
 
 module.exports = typeDefs;
