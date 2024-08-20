@@ -9,7 +9,7 @@ type User {
 type Book {
   bookId: ID!
   title: String
-  authors: [author]
+  authors: []
   image: String
   link: String
   description: String
@@ -34,7 +34,7 @@ type Mutation {
 input BookInput {
   bookId: ID!
   title: String
-  authors: [author]
+  authors: []
 }
 
 `;
